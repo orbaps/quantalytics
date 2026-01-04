@@ -32,32 +32,33 @@ Run the notebooks to validate regime detection logic.
 
 ---
 
-## 🏗️ Strategy Benchmarking (Control Group)
-### 1. Baseline Momentum Strategy
-An intentionally simple control group to evaluate benchmark performance:
-- **Rule**: Long if Rolling Momentum > 0; Flat otherwise.
-- **Sizing**: Fixed position size (1 unit).
-- **Complexity**: Baseline logic, no regime awareness, no leverage.
+## 🏗️ Strategy Results & Benchmarking
+### 1. Final Comparison (2024 Full Year)
+| Asset | Strategy | Sharpe | Max Drawdown | Total Return | Verdict |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **XAUUSD** | Baseline | **2.12** | -5.09% | **24.8%** | Aggressive |
+| **XAUUSD** | Adaptive | 1.70 | **-3.69%** | 12.98% | **Stable** |
+| **XAGUSD** | Baseline | 0.51 | -16.43% | 11.16% | Noisy |
+| **XAGUSD** | Adaptive | -0.08 | **-10.34%** | -1.18% | **Protected** |
 
-### 2. Regime-Adaptive Strategy (Proposed Innovation)
-This strategy adjusts its sensitivity and exposure based on the volatility regime detected in Phase 3.
+**Observation**: The Adaptive Strategy prioritizes capital preservation. While it sacrifices some upside in Gold's massive 2024 trend (where a static fast lookback was ideal), it reduced Max Drawdown by **~28% (Gold)** and **~37% (Silver)**.
 
-| Volatility Regime | Momentum Lookback | Position Size | Rationale |
-| :--- | :--- | :--- | :--- |
-| **LOW_VOL** | 10 | 1.0 | Faster signal to capture stable trends. |
-| **MID_VOL** | 20 | 0.75 | Balanced signal for normal discovery. |
-| **HIGH_VOL** | 40 | 0.4 | Slower signal + small size to survive noise. |
+### 2. Walk-Forward Validation (Quarterly)
+| Period | Base Sharpe | Adapt Sharpe | Base DD | Adapt DD |
+| :--- | :--- | :--- | :--- | :--- |
+| **Q2 2024** | 0.50 | -0.04 | -5.09% | **-2.96%** |
+| **Q3 2024** | 3.34 | 2.92 | -2.66% | -2.86% |
+| **Q4 2024** | 2.10 | 1.89 | -3.38% | **-2.58%** |
 
 ---
 
-## Walk-Forward Validation
+## Walk-Forward Validation Methodology
 We employ a rolling walk-forward evaluation:
-- Train window: 5 years
-- Test window: 1 year
-- Step size: 1 year
+- Train window: Rolling snapshots (3 months min)
+- Test window: Disjoint quarter steps
+- Step size: 3 months
 
-At each step, regime thresholds and strategy parameters remain fixed.
-No information from the test window is used during training.
+At each step, regime thresholds and strategy parameters remain fixed to ensure no look-ahead bias or over-optimization.
 
 ---
 
