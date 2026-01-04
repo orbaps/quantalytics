@@ -24,9 +24,10 @@ We strictly avoid M1 data to eliminate microstructure noise and artificial backt
 python data/processed/preprocess.py
 ```
 
-### 3. Run Strategy
+### 3. Exploratory Analysis
+Run the notebooks to validate regime detection logic.
 ```bash
-python strategy.py
+# Check notebooks/exploration.ipynb for regime visualization
 ```
 
 ---
@@ -38,25 +39,7 @@ python strategy.py
   - **In-Sample (Train)**: First 70% (2024-01-01 to 2024-09-12).
   - **Out-of-Sample (Test)**: Last 30% (Unseen verification).
 
-### 2. Core Logic (VolatilityTrendStrategy)
-- **Trend Filter**: 50/200 EMA bias (relaxed to allow earlier entries).
-- **Momentum Filter**: RSI (35-70 for Longs, 30-65 for Shorts) to ensure entries occur during trend continuation.
-- **Volatility Scaling**: ATR-based position sizing ensures that trade size adapts to market volatility, maintaining a fixed 1% risk per trade.
-- **Exits**: 
-  - Dynamic Stop-Loss (1.2 * ATR)
-  - Take-Profit (2.5 * ATR)
-  - Time-based exit (20 bars)
-
 ---
-
-## 📊 Backtest Performance (Stage-3 Optimized)
-
-| Asset | Period | Sharpe Ratio | Max Drawdown | Verdict |
-| :--- | :--- | :--- | :--- | :--- |
-| **XAGUSD** | In-Sample | 0.92 | -1.06% | ✅ Profitable |
-| **XAGUSD** | Out-of-Sample | 0.12 | -1.62% | ✅ Robust |
-
-*Note: Model selection was performed on the training set. Final performance is reported on unseen data to ensure real-world viability.*
 
 ## 📂 Project Structure
 ```text
@@ -64,12 +47,12 @@ quantalytics/
 ├── data/
 │   ├── raw/           # Raw M1 CSV files
 │   └── processed/     # 1H Resampled Research Data
-├── features/          # Feature engineering modules
+├── features/          # Feature engineering modules (Volatility, Regimes)
 ├── strategies/        # Baseline & Regime-Adaptive strategies
 ├── backtests/         # Walk-forward analysis scripts
 ├── evaluation/        # Statistical significance tests
 ├── notebooks/         # EDA & visual analysis
-├── strategy.py        # Primary entry point
+├── strategy.py        # Placeholder (Development Phase)
 └── README.md
 ```
 
