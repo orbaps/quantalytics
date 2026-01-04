@@ -50,6 +50,17 @@ This strategy adjusts its sensitivity and exposure based on the volatility regim
 
 ---
 
+## Walk-Forward Validation
+We employ a rolling walk-forward evaluation:
+- Train window: 5 years
+- Test window: 1 year
+- Step size: 1 year
+
+At each step, regime thresholds and strategy parameters remain fixed.
+No information from the test window is used during training.
+
+---
+
 ## 🛠️ Data Methodology
 - **Raw Data**: 1-minute (M1) institutional feeds.
 - **Research Timeframe**: 1-hour (1H) bars. This removes "noise" and provides a statistically stable foundation for regime detection.
