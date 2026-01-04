@@ -1,50 +1,42 @@
-# Quantalytics: Volatility Trend Strategy
+# Quantalytics: Regime-Adaptive Volatility-Aware Momentum Strategy
 
-A professional-grade quantitative backtesting system for Gold (**XAUUSD**) and Silver (**XAGUSD**), built using the `backtesting.py` framework. This project demonstrates a complete quant workflow, including data resampling, strict in-sample/out-of-sample splitting, and volatility-adjusted risk management.
+A research-grade quantitative system designed for Gold (**XAUUSD**) and Silver (**XAGUSD**). This project moves beyond retail-grade "M1 noise" to focus on high-fidelity institutional timeframes (1H) and regime-adaptive logic.
+
+### 🧪 Research Question
+> **"Does adapting momentum strategies to market volatility regimes significantly improve risk-adjusted returns in precious metals compared to static momentum strategies?"**
+
+---
 
 ## 🚀 Quick Start
 
-### 1. Prerequisites
-Ensure you have Python 3.8+ installed.
-
-### 2. Setup Environment
+### 1. Setup Environment
 ```bash
-# Clone the repository
-git clone https://github.com/orbaps/quantalytics.git
-cd quantalytics
-
-# Create and activate virtual environment
 python -m venv venv
-# Windows:
+# Activate venv (Windows)
 .\venv\Scripts\Activate.ps1
-# Mac/Linux:
-source venv/bin/activate
-
 # Install dependencies
-pip install pandas numpy backtesting matplotlib
+pip install -r requirements.txt
 ```
 
-### 3. Run Backtest
-The strategy runs on 1-minute (M1) CSV data, which is automatically resampled to 15-minute (M15) bars for trend analysis.
-
+### 2. Research-Grade Preprocessing (M1 -> 1H)
+We strictly avoid M1 data to eliminate microstructure noise and artificial backtest inflation.
 ```bash
-# Run for Gold (XAUUSD)
-python strategy.py data/XAUUSD_M1.csv
+python data/processed/preprocess.py
+```
 
-# Run for Silver (XAGUSD)
-python strategy.py data/XAGUSD_M1.csv
+### 3. Run Strategy
+```bash
+python strategy.py
 ```
 
 ---
 
-## 🛠️ Strategy Architecture
-
-### 1. Data Pipeline
-- **Raw Input**: M1 CSV files (Format: `Date, Time, Open, High, Low, Close, Volume`).
-- **Resampling**: M1 -> M15 using OHLC aggregation to reduce noise and identify meaningful trends.
+## 🛠️ Data Methodology
+- **Raw Data**: 1-minute (M1) institutional feeds.
+- **Research Timeframe**: 1-hour (1H) bars. This removes "noise" and provides a statistically stable foundation for regime detection.
 - **Validation**: Strict Time-Based Split:
-  - **In-Sample (Train)**: First 70% of data (Development & Optimization).
-  - **Out-Of-Sample (Test)**: Last 30% of data (Unseen verification).
+  - **In-Sample (Train)**: First 70% (2024-01-01 to 2024-09-12).
+  - **Out-of-Sample (Test)**: Last 30% (Unseen verification).
 
 ### 2. Core Logic (VolatilityTrendStrategy)
 - **Trend Filter**: 50/200 EMA bias (relaxed to allow earlier entries).
@@ -70,13 +62,17 @@ python strategy.py data/XAGUSD_M1.csv
 ```text
 quantalytics/
 ├── data/
-│   ├── XAUUSD_M1.csv
-│   └── XAGUSD_M1.csv
-├── strategy.py      # Main strategy and backtest logic
-├── .gitignore       # Exclusion for venv and cache
-└── README.md        # This file
+│   ├── raw/           # Raw M1 CSV files
+│   └── processed/     # 1H Resampled Research Data
+├── features/          # Feature engineering modules
+├── strategies/        # Baseline & Regime-Adaptive strategies
+├── backtests/         # Walk-forward analysis scripts
+├── evaluation/        # Statistical significance tests
+├── notebooks/         # EDA & visual analysis
+├── strategy.py        # Primary entry point
+└── README.md
 ```
 
 ---
-**Author**: Antigravity (Advanced Agentic Coding)
+**Author**: Amarendra Pratap Singh
 **License**: MIT
