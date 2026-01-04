@@ -1,13 +1,13 @@
 import numpy as np
-import pandas as pd
 
 def rolling_volatility(df, window=30):
     """
-    Calculates rolling standard deviation of log returns.
+    Computes rolling log-return volatility.
     """
-    # Defensive check for column case
-    close_col = 'Close' if 'Close' in df.columns else 'close'
+    # Defensive mapping to handle case sensitivity
+    data = df.copy()
+    data.columns = [c.lower() for c in data.columns]
     
-    log_ret = np.log(df[close_col]).diff()
+    log_ret = np.log(data["close"]).diff()
     vol = log_ret.rolling(window).std()
     return vol

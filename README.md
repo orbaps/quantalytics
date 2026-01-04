@@ -32,6 +32,15 @@ Run the notebooks to validate regime detection logic.
 
 ---
 
+## 🏗️ Strategy Benchmarking (Control Group)
+### 1. Baseline Momentum Strategy
+An intentionally simple control group to evaluate benchmark performance:
+- **Rule**: Long if Rolling Momentum > 0; Flat otherwise.
+- **Sizing**: Fixed position size (1 unit).
+- **Complexity**: Baseline logic, no regime awareness, no leverage.
+
+---
+
 ## 🛠️ Data Methodology
 - **Raw Data**: 1-minute (M1) institutional feeds.
 - **Research Timeframe**: 1-hour (1H) bars. This removes "noise" and provides a statistically stable foundation for regime detection.
