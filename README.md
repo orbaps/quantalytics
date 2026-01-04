@@ -39,6 +39,15 @@ An intentionally simple control group to evaluate benchmark performance:
 - **Sizing**: Fixed position size (1 unit).
 - **Complexity**: Baseline logic, no regime awareness, no leverage.
 
+### 2. Regime-Adaptive Strategy (Proposed Innovation)
+This strategy adjusts its sensitivity and exposure based on the volatility regime detected in Phase 3.
+
+| Volatility Regime | Momentum Lookback | Position Size | Rationale |
+| :--- | :--- | :--- | :--- |
+| **LOW_VOL** | 10 | 1.0 | Faster signal to capture stable trends. |
+| **MID_VOL** | 20 | 0.75 | Balanced signal for normal discovery. |
+| **HIGH_VOL** | 40 | 0.4 | Slower signal + small size to survive noise. |
+
 ---
 
 ## 🛠️ Data Methodology
